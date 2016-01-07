@@ -34,7 +34,7 @@ object algorithms {
   }
 
   /**
-   * Perform a PageRank calculation using Spark's GraphX algorithms
+   * Modification to PageRank calculation using Spark's GraphX algorithms
    * @param sc is the Spark Context
    * @param path is the file path to the edge list for the calculation
    * @return a key-value list of calculations for each vertex
@@ -42,7 +42,8 @@ object algorithms {
   def pageRank(sc: SparkContext, path: String): java.lang.Iterable[String] = {
     val graph = GraphLoader.edgeListFile(sc, path);
 
-    val v = graph.pageRank(.0001).vertices
+    //Changed 0.0001 to 0.0005 based on bechmarks - remember to change it for other cases
+    val v = graph.pageRank(.0005).vertices
 
     val results = v.map { row =>
       row._1 + " " + row._2 + "\n"
